@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 
-pragma solidity >=0.7.0 <0.9.0;
+pragma solidity >=0.5.0 <0.9.0;
 
 contract Student_Management{
     struct Student{
@@ -9,17 +9,13 @@ contract Student_Management{
     string enrollmentStatus;
     uint[] grades;
 }
+uint[] grades_list = [100, 90, 300];
 mapping(uint => Student) public students;
 
 uint[] public studentIds;
 
-constructor(string memory _name, uint _age, string memory
-
-_enrollmentStatus, uint[] memory _grades) {
-
-    students[1] =
-
-    Student(_name,_age,_enrollmentStatus,_grades);
+constructor() public {
+    students[1] = Student("name", 19, "False", grades_list);
 
     studentIds.push(1);
 }

@@ -8,13 +8,13 @@ install_solc("0.6.0")
 # -----------------------------------------------------------------------------------------------
 
 # connecting to a node
-eth = 'http://127.0.0.1:8545'
+eth = 'http://127.0.0.1:7545'
 w3 = Web3(Web3.HTTPProvider(eth))
 chain_id = 1337
 print("This the status of your connection to the blockchain: " + str(w3.isConnected()))
 
-my_address = "0x03a71ccdA2b435D9CCAACc229b595163578A180C"
-private_key = "82f8b6c869354e6babf55a4c106c84181ad0e41e078cbe24e490e40c820f35a6"
+my_address = "0x0cb7d4B17a1464EDcDF8D53c3C12ba903af75921"
+private_key = "5aa86549f02b9c7ec71ebb26a58feec3b6dd48b80ed666be3070c80a527f2221"
 
 # Solidity source code
 # ------------------------------------------------------------------------
@@ -46,8 +46,8 @@ w3.eth.default_account = w3.eth.accounts[0]
 print("This is the default account: " + str(w3.eth.default_account))
 
 # Creating the contract object ------------------------------------------------------
-Student_Management = w3.eth.contract(abi=abi, bytecode=bytecode)
-print(" This is the TODO_LIST contract : " + str(Student_Management))
+STUDENTMS = w3.eth.contract(abi=abi, bytecode=bytecode)
+print(" This is the Student_Management contract : " + str(STUDENTMS))
 
 # Get the latest transactionCount --------------------
 nonce = w3.eth.getTransactionCount(my_address)
@@ -55,7 +55,7 @@ nonce = w3.eth.getTransactionCount(my_address)
 
 
 # Submit the transaction that deploys the contract ------------------------------------
-transaction = Student_Management.constructor().buildTransaction(
+transaction = STUDENTMS.constructor().buildTransaction(
     {
         "chainId": chain_id,
         "gasPrice": w3.eth.gas_price,
@@ -78,15 +78,15 @@ print(f"Done! Contract deployed to {tx_receipt.contractAddress}")
 
 
 # Submit the transaction that deploys the contract-------------------------------------
-tx_hash = Student_Management.constructor().transact()
+tx_hash = STUDENTMS.constructor().transact()
 print("The transaction has occurred and this is the transaction hash: ")
 print(tx_hash)
 
 
 # Calling the greet function -----------------------
 # Working with deployed Contracts
-TODOLIST = w3.eth.contract(address=tx_receipt.contractAddress, abi=abi)
-print(f"This is the get_no_sales function:  {TODOLIST.functions.getTask(1).call()}")
+STUDENTMS = w3.eth.contract(address=tx_receipt.contractAddress, abi=abi)
+# print(f"This is the getStudents function:  {STUDENTMS.functions.getStudents(1).call()}")
 
 # Calling the setGreeting function--------------------------------------------------------------------
 tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
@@ -97,30 +97,37 @@ print("This is the transaction receipt")
 print(tx_receipt)
 
 
-# Calling the make_sale_record function -------------------------
-print("This is the return from the make_sale_record() function: " )
-print(TODOLIST.functions.createTask("Attend meeting").transact())
-print("Data type of this return is: " + str(type(TODOLIST.functions.createTask("Attend meeting").transact())))
+# # Calling the make_sale_record function -------------------------
+# print("This is the return from the make_sale_record() function: " )
+# print(TODOLIST.functions.createTask("Attend meeting").transact())
+# print("Data type of this return is: " + str(type(TODOLIST.functions.createTask("Attend meeting").transact())))
+#
+#
+# #  -------------------------------------------------------------
+# # Reading from the smart contract
+# # This function is getting us the state variable called greeting
+# SALE_NUMBER = TODOLIST.functions.getTask(1).call()
+# print("This is the number of sales : " + str(SALE_NUMBER))
+#
+#
+# # Make  new Transaction using functions ------------------>
+# def create_task(task):
+#     TODOLIST.functions.createTask(task).transact()
+#
+# def get_task(x):
+#     task = (TODOLIST.functions.getTask(x).call())
+#     return task
+#
+# def toggle_Completed(x):
+#     task = TODOLIST.functions.toggleCompleted(x).transact()
+#     return task
+#
+# print("this is the task:")
+# print(get_task(1))
+
+def getStudents(student_id):
+    student = STUDENTMS.functions.getStudents(student_id).call()
+    return student
 
 
-#  -------------------------------------------------------------
-# Reading from the smart contract
-# This function is getting us the state variable called greeting
-SALE_NUMBER = TODOLIST.functions.getTask(1).call()
-print("This is the number of sales : " + str(SALE_NUMBER))
-
-
-# Make  new Transaction using functions ------------------>
-def create_task(task):
-    TODOLIST.functions.createTask(task).transact()
-
-def get_task(x):
-    task = (TODOLIST.functions.getTask(x).call())
-    return task
-
-def toggle_Completed(x):
-    task = TODOLIST.functions.toggleCompleted(x).transact()
-    return task
-
-print("this is the task:")
-print(get_task(1))
+print(getStudents(int(input("Enter Student Id"))))
