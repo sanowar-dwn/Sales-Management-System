@@ -13,8 +13,8 @@ w3 = Web3(Web3.HTTPProvider(eth))
 chain_id = 1337
 print("This the status of your connection to the blockchain: " + str(w3.isConnected()))
 
-my_address = "0x0cb7d4B17a1464EDcDF8D53c3C12ba903af75921"
-private_key = "5aa86549f02b9c7ec71ebb26a58feec3b6dd48b80ed666be3070c80a527f2221"
+my_address = "0xa6e13f7BFb4c5Ca00A3B0dA9d67E43cEAf10B809"
+private_key = "0x34c70200a8251f03b4cf885217338d6babaafa718852374a639344b753e5a245"
 
 # Solidity source code
 # ------------------------------------------------------------------------
@@ -129,5 +129,3 @@ def getStudents(student_id):
     student = STUDENTMS.functions.getStudents(student_id).call()
     return student
 
-
-print(getStudents(int(input("Enter Student Id"))))
