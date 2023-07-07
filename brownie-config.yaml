@@ -1,0 +1,5 @@
+dotenv: .env
+wallets:
+  from_key: ${PRIVATE_KEY}
+  owner_key: ${OWNER_KEY}
+  employee_key: ${EMPLOYEE_KEY}
